@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ER Modelling Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background-color: #f5f0f0;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            background-color: #007BFF;
+            color: #f8f3f3;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        textarea, input[type="submit"] {
+            width: 100%;
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        input[type="checkbox"] {
+            margin-right: 5px;
+        }
+        label {
+            font-size: 16px;
+            display: block;
+            margin: 10px 0 5px;
+        }
+        .result {
+            margin-top: 20px;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+        .download-link {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>ERD Modelling using NLP</h1>
+        </div>
+
+        <!-- Text Preprocessing Form -->
+        <form action="/" method="post">
+            <input type="hidden" name="action" value="preprocess">
+
+            <label for="text">Enter Text:</label>
+            <textarea id="text" name="text" rows="6" placeholder="Enter text to preprocess..."></textarea>
+
+            <label>Select Preprocessing Options:</label>
+            <input type="checkbox" name="options" value="1"> Lowercase Text<br>
+            <input type="checkbox" name="options" value="2"> Remove Punctuation<br>
+            <input type="checkbox" name="options" value="3"> Tokenization<br>
+            <input type="checkbox" name="options" value="4"> Remove Stopwords<br>
+            <input type="checkbox" name="options" value="5"> Lemmatization<br>
+            <input type="checkbox" name="options" value="6"> Remove Digits<br>
+            <input type="checkbox" name="options" value="7"> Bag of Words<br>
+            <input type="checkbox" name="options" value="8"> POS Tagging<br>
+            
+            <input type="submit" value="Preprocess Text">
+        </form>
+
+        <!-- ER Diagram Generation Form -->
+        <form action="/" method="post" style="margin-top: 20px;">
+            <input type="hidden" name="action" value="generate_er">
+
+            <label for="er_requirements">Enter ER Diagram Requirements:</label>
+            <textarea id="er_requirements" name="er_requirements" rows="6" placeholder="e.g., Student has attributes Name, RollNumber, Email. Student enrolls in Course."></textarea>
+            
+            <input type="submit" value="Generate ER Diagram">
+        </form>
+
+        <!-- Error Message -->
+        {% if error %}
+        <div class="error">{{ error }}</div>
+        {% endif %}
+
+        <!-- Display Original and Preprocessed Text -->
+        {% if original_text %}
+        <div class="result">
+            <h3>Original Text:</h3>
+            <p>{{ original_text }}</p>
+        </div>
+        {% endif %}
+
+        {% if preprocessed_text %}
+        <div class="result">
+            <h3>Preprocessed Text:</h3>
+            <p>{{ preprocessed_text }}</p>
+        </div>
+        {% endif %}
+
+        <!-- ER Diagram Download Link -->
+        {% if er_diagram %}
+        <div class="download-link">
+            <p>ER Diagram generated successfully. You can <a href="{{ url_for('download_er_diagram') }}" download>download the ER Diagram here</a>.</p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
